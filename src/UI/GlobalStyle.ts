@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
     --point-color: #FAA916;
     --point-font-color: #96031A;
 
-    --title: 2rem;
+    --title: 1.5rem;
     --default-font: 1rem;
   }
 
@@ -19,15 +19,16 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
     background-color: transparent;
-    font-size: 1rem;
+    font-size: var(--default-font);
     list-style: none;
     color:var(--font-line-color)
   }
   body{
+    width:100%;
     display: flex;
     justify-content: center;
     padding:30px;
-    background-color: var(--bg-color);
+    /* background-color: var(--bg-color); */
   }
 `;
 
