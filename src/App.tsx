@@ -36,56 +36,47 @@ const mock = [
   {
     id: 1,
     text: '임시 할 일 목록 1',
-    important: true,
-    clear: false,
+    type: 'clear',
   },
   {
     id: 2,
     text: '임시 할 일 목록 2',
-    important: false,
-    clear: false,
+    type: 'important',
   },
   {
     id: 3,
     text: '임시 할 일 목록 3',
-    important: false,
-    clear: true,
+    type: 'clear',
   },
   {
     id: 4,
     text: '임시 할 일 목록 4',
-    important: true,
-    clear: true,
+    type: 'default',
   },
   {
     id: 5,
     text: '임시 할 일 목록 5',
-    important: true,
-    clear: false,
+    type: 'default',
   },
   {
     id: 6,
     text: '임시 할 일 목록 6',
-    important: false,
-    clear: false,
+    type: 'default',
   },
   {
     id: 7,
     text: '임시 할 일 목록 7',
-    important: false,
-    clear: true,
+    type: 'default',
   },
   {
     id: 8,
     text: '임시 할 일 목록 8',
-    important: true,
-    clear: true,
+    type: 'important',
   },
   {
     id: 9,
     text: '임시 할 일 목록 9',
-    important: true,
-    clear: false,
+    type: 'clear',
   },
 ];
 function App() {
@@ -95,7 +86,10 @@ function App() {
   const [normal, setNormal] = useState<Todo[]>([]);
 
   const dataSort = () => {
-    const clearData = data.filter((ele) => ele.clear);
+    // const importantData = data.filter((ele) => ele.type === 'important');
+    // console.log(importantData);
+    // setImpotant(importantData);
+    const clearData = data.filter((ele) => ele.type === 'clear');
     setClear(clearData);
     const importantData = data
       .filter((ele) => !ele.clear)
