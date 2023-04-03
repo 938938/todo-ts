@@ -3,11 +3,15 @@ import styled from 'styled-components';
 
 const TodoItem: React.FC<{
   text: string;
+  id: number;
   deleteTodo: () => void;
-  onDragHandler: (event: React.DragEvent<HTMLDivElement>) => void;
-}> = ({ text, deleteTodo, onDragHandler }) => {
+  onDragHandler: (event: React.DragEvent<HTMLDivElement>, id: number) => void;
+}> = ({ text, id, deleteTodo, onDragHandler }) => {
   return (
-    <TodoItemUI draggable={true} onDragStart={onDragHandler}>
+    <TodoItemUI
+      draggable={true}
+      onDragStart={(event) => onDragHandler(event, id)}
+    >
       <p>{text}</p>
       <button>수정</button>
       <button onClick={deleteTodo}>삭제</button>

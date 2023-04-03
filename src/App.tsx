@@ -51,22 +51,22 @@ const mock = [
   {
     id: 4,
     text: '임시 할 일 목록 4',
-    type: 'default',
+    type: 'normal',
   },
   {
     id: 5,
     text: '임시 할 일 목록 5',
-    type: 'default',
+    type: 'normal',
   },
   {
     id: 6,
     text: '임시 할 일 목록 6',
-    type: 'default',
+    type: 'normal',
   },
   {
     id: 7,
     text: '임시 할 일 목록 7',
-    type: 'default',
+    type: 'normal',
   },
   {
     id: 8,
@@ -80,25 +80,18 @@ const mock = [
   },
 ];
 function App() {
-  const [data, setData] = useState(mock);
+  const [data, setData] = useState<Todo[]>(mock);
   const [important, setImpotant] = useState<Todo[]>([]);
   const [clear, setClear] = useState<Todo[]>([]);
   const [normal, setNormal] = useState<Todo[]>([]);
 
   const dataSort = () => {
-    // const importantData = data.filter((ele) => ele.type === 'important');
-    // console.log(importantData);
-    // setImpotant(importantData);
+    const importantData = data.filter((ele) => ele.type === 'important');
+    setImpotant(importantData);
     const clearData = data.filter((ele) => ele.type === 'clear');
     setClear(clearData);
-    const importantData = data
-      .filter((ele) => !ele.clear)
-      .filter((ele) => ele.important);
-    setImpotant(importantData);
-    const ect = data
-      .filter((ele) => !ele.clear)
-      .filter((ele) => !ele.important);
-    setNormal(ect);
+    const normalData = data.filter((ele) => ele.type === 'normal');
+    setNormal(normalData);
   };
 
   useEffect(() => {
@@ -109,33 +102,38 @@ function App() {
     const newData = {
       id: data.length,
       text: text,
-      important: false,
-      clear: false,
+      type: 'normal',
     };
     setData((prev) => [newData, ...prev]);
   };
+
   const deleteTodoHandler = (id: number) => {
     setData((prev) => prev.filter((data) => data.id !== id));
   };
-  // 드래그 - 드롭
-  // 드롭 했을 때, 드롭한 객체의 id값을 찾아서 > 드롭한 자리의 type에 맞게 true/false값을 업데이트 해야 함
 
-  const onDragHandler = (event: React.DragEvent<HTMLDivElement>) => {
-    console.log('onDrag');
+  const onDragHandler = (
+    event: React.DragEvent<HTMLDivElement>,
+    id: number
+  ) => {
+    event.dataTransfer.setData('id', `${id}`);
   };
+
   const onDropHandler = (
     event: React.DragEvent<HTMLDivElement>,
     type: string
   ) => {
-    if (type === 'default') {
-    }
-
     event.preventDefault();
     console.log('onDrop', type);
+    const dataId = event.dataTransfer.getData('id');
+    setData((prev) =>
+      prev.map((todo) =>
+        todo.id === Number(dataId) ? { ...todo, type: type } : todo
+      )
+    );
+    dataSort();
   };
   const overDropHandler = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-
     console.log('overDrop');
   };
   return (
@@ -151,7 +149,7 @@ function App() {
         onDragHandler={onDragHandler}
       />
       <TodoList
-        type='default'
+        type='normal'
         title='해야할 일'
         data={normal}
         deleteTodo={deleteTodoHandler}
