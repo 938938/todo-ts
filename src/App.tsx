@@ -110,6 +110,12 @@ function App() {
   const deleteTodoHandler = (id: number) => {
     setData((prev) => prev.filter((data) => data.id !== id));
   };
+  const clearTodoHandler = (id: number) => {
+    setData((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, type: 'clear' } : todo))
+    );
+    dataSort();
+  };
 
   const onDragHandler = (
     event: React.DragEvent<HTMLDivElement>,
@@ -143,6 +149,7 @@ function App() {
         type='important'
         title='중요한 일'
         data={important}
+        clearTodo={clearTodoHandler}
         deleteTodo={deleteTodoHandler}
         onDropHandler={onDropHandler}
         overDropHandler={overDropHandler}
@@ -152,6 +159,7 @@ function App() {
         type='normal'
         title='해야할 일'
         data={normal}
+        clearTodo={clearTodoHandler}
         deleteTodo={deleteTodoHandler}
         onDropHandler={onDropHandler}
         overDropHandler={overDropHandler}
@@ -161,6 +169,7 @@ function App() {
         type='clear'
         title='완료한 일'
         data={clear}
+        clearTodo={clearTodoHandler}
         deleteTodo={deleteTodoHandler}
         onDropHandler={onDropHandler}
         overDropHandler={overDropHandler}

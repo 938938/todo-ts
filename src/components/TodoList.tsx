@@ -7,6 +7,7 @@ const TodoList: React.FC<{
   title: string;
   data: { id: number; text: string }[];
   deleteTodo: (id: number) => void;
+  clearTodo: (id: number) => void;
   onDropHandler: (event: React.DragEvent<HTMLDivElement>, type: string) => void;
   overDropHandler: (event: React.DragEvent<HTMLDivElement>) => void;
   onDragHandler: (event: React.DragEvent<HTMLDivElement>, id: number) => void;
@@ -15,6 +16,7 @@ const TodoList: React.FC<{
   title,
   data,
   deleteTodo,
+  clearTodo,
   onDropHandler,
   overDropHandler,
   onDragHandler,
@@ -62,6 +64,7 @@ const TodoList: React.FC<{
                 text={todo.text}
                 id={todo.id}
                 deleteTodo={deleteTodo.bind(null, todo.id)}
+                clearTodo={clearTodo.bind(null, todo.id)}
                 onDragHandler={onDragHandler}
               />
             ))}

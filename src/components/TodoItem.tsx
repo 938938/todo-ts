@@ -5,15 +5,16 @@ const TodoItem: React.FC<{
   text: string;
   id: number;
   deleteTodo: () => void;
+  clearTodo: () => void;
   onDragHandler: (event: React.DragEvent<HTMLDivElement>, id: number) => void;
-}> = ({ text, id, deleteTodo, onDragHandler }) => {
+}> = ({ text, id, deleteTodo, clearTodo, onDragHandler }) => {
   return (
     <TodoItemUI
       draggable={true}
       onDragStart={(event) => onDragHandler(event, id)}
     >
-      <p>{text}</p>
-      <button>수정</button>
+      <p onClick={clearTodo}>{text}</p>
+      {/* <button>수정</button> */}
       <button onClick={deleteTodo}>삭제</button>
     </TodoItemUI>
   );
@@ -36,5 +37,8 @@ const TodoItemUI = styled.div`
   }
   &:hover {
     background-color: beige;
+  }
+  button {
+    cursor: pointer;
   }
 `;
