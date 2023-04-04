@@ -100,7 +100,7 @@ function App() {
 
   const addTodoHandler = (text: string) => {
     const newData = {
-      id: data.length,
+      id: data.length + 1,
       text: text,
       type: 'normal',
     };
