@@ -86,6 +86,10 @@ const TodoListUI = styled.div`
     overflow: scroll;
     border-bottom: 1px solid var(--font-line-color);
     transition: all 0.4s;
+    -ms-overflow-style: none;
+  }
+  .listbox::-webkit-scrollbar {
+    display: none;
   }
   .listbox.open {
     background-color: transparent;
