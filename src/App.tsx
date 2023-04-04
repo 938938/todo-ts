@@ -34,47 +34,47 @@ import { Todo } from './models/todo';
  */
 const mock = [
   {
-    id: 1,
+    id: 0,
     text: '임시 할 일 목록 1',
     type: 'clear',
   },
   {
-    id: 2,
+    id: 1,
     text: '임시 할 일 목록 2',
     type: 'important',
   },
   {
-    id: 3,
+    id: 2,
     text: '임시 할 일 목록 3',
     type: 'clear',
   },
   {
-    id: 4,
+    id: 3,
     text: '임시 할 일 목록 4',
     type: 'normal',
   },
   {
-    id: 5,
+    id: 4,
     text: '임시 할 일 목록 5',
     type: 'normal',
   },
   {
-    id: 6,
+    id: 5,
     text: '임시 할 일 목록 6',
     type: 'normal',
   },
   {
-    id: 7,
+    id: 6,
     text: '임시 할 일 목록 7',
     type: 'normal',
   },
   {
-    id: 8,
+    id: 7,
     text: '임시 할 일 목록 8',
     type: 'important',
   },
   {
-    id: 9,
+    id: 8,
     text: '임시 할 일 목록 9',
     type: 'clear',
   },
@@ -100,7 +100,7 @@ function App() {
 
   const addTodoHandler = (text: string) => {
     const newData = {
-      id: data.length + 1,
+      id: data.length,
       text: text,
       type: 'normal',
     };
@@ -110,6 +110,7 @@ function App() {
   const deleteTodoHandler = (id: number) => {
     setData((prev) => prev.filter((data) => data.id !== id));
   };
+
   const clearTodoHandler = (id: number) => {
     setData((prev) =>
       prev.map((todo) => (todo.id === id ? { ...todo, type: 'clear' } : todo))
