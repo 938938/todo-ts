@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from './components/Header';
 import NewTodo from './components/NewTodo';
+import Progress from './components/Progress';
 import TodoList from './components/TodoList';
 import { Todo } from './models/todo';
 
@@ -177,6 +178,7 @@ function App() {
         onDragHandler={onDragHandler}
       />
       <NewTodo addTodo={addTodoHandler} />
+      <Progress data={data} clear={clear} />
     </AppUI>
   );
 }
