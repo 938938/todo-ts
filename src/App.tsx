@@ -56,6 +56,12 @@ function App() {
   const [clear, setClear] = useState<Todo[]>([]);
   const [normal, setNormal] = useState<Todo[]>([]);
 
+  const typelist = [
+    { type: 'important', title: '중요한 일', data: important },
+    { type: 'normal', title: '해야할 일', data: normal },
+    { type: 'clear', title: '완료한 일', data: clear },
+  ];
+
   const dataSort = () => {
     const importantData = data.filter((ele) => ele.type === 'important');
     setImpotant(importantData);
@@ -81,27 +87,16 @@ function App() {
   return (
     <AppUI>
       <Header />
-      <TodoList
-        type='important'
-        title='중요한 일'
-        data={important}
-        setData={setData}
-        dataSort={dataSort}
-      />
-      <TodoList
-        type='normal'
-        title='해야할 일'
-        data={normal}
-        setData={setData}
-        dataSort={dataSort}
-      />
-      <TodoList
-        type='clear'
-        title='완료한 일'
-        data={clear}
-        setData={setData}
-        dataSort={dataSort}
-      />
+      {typelist.map((list) => (
+        <TodoList
+          key={list.type}
+          type={list.type}
+          title={list.title}
+          data={list.data}
+          setData={setData}
+          dataSort={dataSort}
+        />
+      ))}
       <NewTodo addTodo={addTodoHandler} />
       <Progress data={data} clear={clear} />
     </AppUI>

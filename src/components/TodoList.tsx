@@ -12,6 +12,7 @@ const TodoList: React.FC<{
 }> = ({ type, title, data, setData, dataSort }) => {
   const [typeColor, setTypeColor] = useState('');
   const [open, setOpen] = useState(false);
+  const [drag, setDrag] = useState(false);
   const openHandler = () => {
     setOpen((prev) => !prev);
   };
@@ -39,6 +40,7 @@ const TodoList: React.FC<{
     type: string
   ) => {
     event.preventDefault();
+    setDrag(false);
     console.log('onDrop', type);
     const dataId = event.dataTransfer.getData('id');
     setData((prev) =>
@@ -50,7 +52,11 @@ const TodoList: React.FC<{
   };
   const overDropHandler = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    console.log('overDrop');
+    setDrag(true);
+  };
+  const leaveDragHandler = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setDrag(false);
   };
 
   const colorHandler = (type: string) => {
@@ -77,9 +83,15 @@ const TodoList: React.FC<{
   return (
     <TodoListUI
       onDragOver={overDropHandler}
+      onDragLeave={leaveDragHandler}
       onDrop={(event) => onDropHandler(event, type)}
     >
-      <ListTitle typeColor={typeColor} type={type} onClick={openHandler}>
+      <ListTitle
+        typeColor={typeColor}
+        type={type}
+        drag={drag}
+        onClick={openHandler}
+      >
         {title}
       </ListTitle>
       <div className={open ? 'listbox open' : 'listbox'}>
@@ -126,8 +138,15 @@ const TodoListUI = styled.div`
   }
 `;
 
-const ListTitle = styled.div<{ typeColor: string; type: string }>`
+const ListTitle = styled.div<{
+  typeColor: string;
+  type: string;
+  drag: boolean;
+}>`
   border-top: 1px solid var(--font-line-color);
+  box-shadow: ${(props) =>
+    props.drag ? '0 0 0 3px var(--font-line-color) inset' : ''};
+  transition: all 0.3s;
   height: 30px;
   line-height: 30px;
   text-align: center;
