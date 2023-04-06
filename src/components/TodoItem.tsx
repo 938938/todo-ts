@@ -4,14 +4,16 @@ import styled from 'styled-components';
 const TodoItem: React.FC<{
   text: string;
   id: number;
+  type: string;
   deleteTodo: () => void;
   clearTodo: () => void;
   onDragHandler: (event: React.DragEvent<HTMLDivElement>, id: number) => void;
-}> = ({ text, id, deleteTodo, clearTodo, onDragHandler }) => {
+}> = ({ text, id, type, deleteTodo, clearTodo, onDragHandler }) => {
   return (
     <TodoItemUI
       draggable={true}
       onDragStart={(event) => onDragHandler(event, id)}
+      type={type}
     >
       <p onClick={clearTodo}>{text}</p>
       {/* <button>수정</button> */}
@@ -22,7 +24,7 @@ const TodoItem: React.FC<{
 
 export default TodoItem;
 
-const TodoItemUI = styled.div`
+const TodoItemUI = styled.div<{ type: string }>`
   width: 100%;
   height: 30px;
   line-height: 30px;
@@ -32,11 +34,18 @@ const TodoItemUI = styled.div`
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.3s;
+
   p {
     width: 80%;
+    text-decoration: ${(props) =>
+      props.type === 'clear' ? 'line-through' : 'none'};
   }
   &:hover {
-    background-color: beige;
+    height: 40px;
+    line-height: 40px;
+    transition: all 0.3s;
   }
   button {
     cursor: pointer;

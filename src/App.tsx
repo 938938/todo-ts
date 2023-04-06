@@ -33,7 +33,7 @@ import { Todo } from './models/todo';
  * 데이터를... 불러와서...
  * <ㅇ>
  */
-const mock = [
+const baseData = [
   {
     id: 0,
     text: '임시 할 일 목록 1',
@@ -47,41 +47,11 @@ const mock = [
   {
     id: 2,
     text: '임시 할 일 목록 3',
-    type: 'clear',
-  },
-  {
-    id: 3,
-    text: '임시 할 일 목록 4',
     type: 'normal',
-  },
-  {
-    id: 4,
-    text: '임시 할 일 목록 5',
-    type: 'normal',
-  },
-  {
-    id: 5,
-    text: '임시 할 일 목록 6',
-    type: 'normal',
-  },
-  {
-    id: 6,
-    text: '임시 할 일 목록 7',
-    type: 'normal',
-  },
-  {
-    id: 7,
-    text: '임시 할 일 목록 8',
-    type: 'important',
-  },
-  {
-    id: 8,
-    text: '임시 할 일 목록 9',
-    type: 'clear',
   },
 ];
 function App() {
-  const [data, setData] = useState<Todo[]>(mock);
+  const [data, setData] = useState<Todo[]>(baseData);
   const [important, setImpotant] = useState<Todo[]>([]);
   const [clear, setClear] = useState<Todo[]>([]);
   const [normal, setNormal] = useState<Todo[]>([]);
@@ -108,42 +78,6 @@ function App() {
     setData((prev) => [newData, ...prev]);
   };
 
-  const deleteTodoHandler = (id: number) => {
-    setData((prev) => prev.filter((data) => data.id !== id));
-  };
-
-  const clearTodoHandler = (id: number) => {
-    setData((prev) =>
-      prev.map((todo) => (todo.id === id ? { ...todo, type: 'clear' } : todo))
-    );
-    dataSort();
-  };
-
-  const onDragHandler = (
-    event: React.DragEvent<HTMLDivElement>,
-    id: number
-  ) => {
-    event.dataTransfer.setData('id', `${id}`);
-  };
-
-  const onDropHandler = (
-    event: React.DragEvent<HTMLDivElement>,
-    type: string
-  ) => {
-    event.preventDefault();
-    console.log('onDrop', type);
-    const dataId = event.dataTransfer.getData('id');
-    setData((prev) =>
-      prev.map((todo) =>
-        todo.id === Number(dataId) ? { ...todo, type: type } : todo
-      )
-    );
-    dataSort();
-  };
-  const overDropHandler = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    console.log('overDrop');
-  };
   return (
     <AppUI>
       <Header />
@@ -151,31 +85,22 @@ function App() {
         type='important'
         title='중요한 일'
         data={important}
-        clearTodo={clearTodoHandler}
-        deleteTodo={deleteTodoHandler}
-        onDropHandler={onDropHandler}
-        overDropHandler={overDropHandler}
-        onDragHandler={onDragHandler}
+        setData={setData}
+        dataSort={dataSort}
       />
       <TodoList
         type='normal'
         title='해야할 일'
         data={normal}
-        clearTodo={clearTodoHandler}
-        deleteTodo={deleteTodoHandler}
-        onDropHandler={onDropHandler}
-        overDropHandler={overDropHandler}
-        onDragHandler={onDragHandler}
+        setData={setData}
+        dataSort={dataSort}
       />
       <TodoList
         type='clear'
         title='완료한 일'
         data={clear}
-        clearTodo={clearTodoHandler}
-        deleteTodo={deleteTodoHandler}
-        onDropHandler={onDropHandler}
-        overDropHandler={overDropHandler}
-        onDragHandler={onDragHandler}
+        setData={setData}
+        dataSort={dataSort}
       />
       <NewTodo addTodo={addTodoHandler} />
       <Progress data={data} clear={clear} />

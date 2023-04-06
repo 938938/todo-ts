@@ -1,31 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Todo } from '../models/todo';
 import TodoItem from './TodoItem';
 
 const TodoList: React.FC<{
   type: string;
   title: string;
   data: { id: number; text: string }[];
-  deleteTodo: (id: number) => void;
-  clearTodo: (id: number) => void;
-  onDropHandler: (event: React.DragEvent<HTMLDivElement>, type: string) => void;
-  overDropHandler: (event: React.DragEvent<HTMLDivElement>) => void;
-  onDragHandler: (event: React.DragEvent<HTMLDivElement>, id: number) => void;
-}> = ({
-  type,
-  title,
-  data,
-  deleteTodo,
-  clearTodo,
-  onDropHandler,
-  overDropHandler,
-  onDragHandler,
-}) => {
+  setData: React.Dispatch<React.SetStateAction<Todo[]>>;
+  dataSort: () => void;
+}> = ({ type, title, data, setData, dataSort }) => {
   const [typeColor, setTypeColor] = useState('');
   const [open, setOpen] = useState(false);
   const openHandler = () => {
     setOpen((prev) => !prev);
   };
+
+  const deleteTodoHandler = (id: number) => {
+    setData((prev) => prev.filter((data) => data.id !== id));
+  };
+
+  const clearTodoHandler = (id: number) => {
+    setData((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, type: 'clear' } : todo))
+    );
+    dataSort();
+  };
+
+  const onDragHandler = (
+    event: React.DragEvent<HTMLDivElement>,
+    id: number
+  ) => {
+    event.dataTransfer.setData('id', `${id}`);
+  };
+
+  const onDropHandler = (
+    event: React.DragEvent<HTMLDivElement>,
+    type: string
+  ) => {
+    event.preventDefault();
+    console.log('onDrop', type);
+    const dataId = event.dataTransfer.getData('id');
+    setData((prev) =>
+      prev.map((todo) =>
+        todo.id === Number(dataId) ? { ...todo, type: type } : todo
+      )
+    );
+    dataSort();
+  };
+  const overDropHandler = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    console.log('overDrop');
+  };
+
   const colorHandler = (type: string) => {
     switch (type) {
       case 'important':
@@ -52,7 +79,7 @@ const TodoList: React.FC<{
       onDragOver={overDropHandler}
       onDrop={(event) => onDropHandler(event, type)}
     >
-      <ListTitle type={typeColor} onClick={openHandler}>
+      <ListTitle typeColor={typeColor} type={type} onClick={openHandler}>
         {title}
       </ListTitle>
       <div className={open ? 'listbox open' : 'listbox'}>
@@ -63,8 +90,9 @@ const TodoList: React.FC<{
                 key={todo.id}
                 text={todo.text}
                 id={todo.id}
-                deleteTodo={deleteTodo.bind(null, todo.id)}
-                clearTodo={clearTodo.bind(null, todo.id)}
+                type={type}
+                deleteTodo={deleteTodoHandler.bind(null, todo.id)}
+                clearTodo={clearTodoHandler.bind(null, todo.id)}
                 onDragHandler={onDragHandler}
               />
             ))}
@@ -98,19 +126,12 @@ const TodoListUI = styled.div`
   }
 `;
 
-const ListTitle = styled.div<{ type: string }>`
+const ListTitle = styled.div<{ typeColor: string; type: string }>`
   border-top: 1px solid var(--font-line-color);
   height: 30px;
   line-height: 30px;
   text-align: center;
-  cursor: pointer;
-  background-color: ${(props) => (props.type ? props.type : '')};
-`;
-
-const ListBox = styled.div<{ open: boolean }>`
-  height: ${(props) => (props.open ? '100%' : '1px')};
-  max-height: 140px;
-  overflow: scroll;
-  border-bottom: 1px solid var(--font-line-color);
-  transition: all 0.4s;
+  background-color: ${(props) => (props.typeColor ? props.typeColor : '')};
+  color: ${(props) =>
+    props.type === 'clear' ? 'var(--bg-color)' : 'var(--font-line-color'};
 `;

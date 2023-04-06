@@ -15,4 +15,5 @@ const ListTitle = styled.p<{ type: string }>`
   border-bottom: 1px solid var(--font-line-color);
   height: 30px;
   background-color: ${(props) => (props.type ? props.type : '')};
+  color: white;
 `;
