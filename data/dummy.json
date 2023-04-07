@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "text": "임시 할 일 목록 1",
+      "type": "clear"
+    },
+    {
+      "id": 1,
+      "text": "임시 할 일 목록 2",
+      "type": "important"
+    },
+    {
+      "id": 2,
+      "text": "임시 할 일 목록 3",
+      "type": "normal"
+    }
+  ]
+}

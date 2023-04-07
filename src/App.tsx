@@ -33,25 +33,8 @@ import { Todo } from './models/todo';
  * 데이터를... 불러와서...
  * <ㅇ>
  */
-const baseData = [
-  {
-    id: 0,
-    text: '임시 할 일 목록 1',
-    type: 'clear',
-  },
-  {
-    id: 1,
-    text: '임시 할 일 목록 2',
-    type: 'important',
-  },
-  {
-    id: 2,
-    text: '임시 할 일 목록 3',
-    type: 'normal',
-  },
-];
 function App() {
-  const [data, setData] = useState<Todo[]>(baseData);
+  const [data, setData] = useState<Todo[]>([]);
   const [important, setImpotant] = useState<Todo[]>([]);
   const [clear, setClear] = useState<Todo[]>([]);
   const [normal, setNormal] = useState<Todo[]>([]);
@@ -71,17 +54,42 @@ function App() {
     setNormal(normalData);
   };
 
+  const getData = async () => {
+    try {
+      const data = await fetch('http://localhost:3001/data')
+        .then((res) => {
+          return res.json();
+        })
+        .then((json) => {
+          setData(json);
+        });
+      return data;
+    } catch (e) {
+      return e;
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   useEffect(() => {
     dataSort();
   }, [data]);
 
   const addTodoHandler = (text: string) => {
     const newData = {
-      id: data.length,
       text: text,
       type: 'normal',
     };
-    setData((prev) => [newData, ...prev]);
+    fetch('http://localhost:3001/data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newData),
+    }).then((response) => response.json());
+    getData();
   };
 
   return (

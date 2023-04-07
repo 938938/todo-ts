@@ -17,11 +17,22 @@ const TodoList: React.FC<{
     setOpen((prev) => !prev);
   };
 
-  const deleteTodoHandler = (id: number) => {
+  const deleteTodoHandler = async (id: number) => {
+    await fetch(`http://localhost:3001/data/${id}`, {
+      method: 'DELETE',
+    });
     setData((prev) => prev.filter((data) => data.id !== id));
   };
 
-  const clearTodoHandler = (id: number) => {
+  const clearTodoHandler = async (id: number) => {
+    const targetData = data.filter((ele) => ele.id === id);
+    await fetch(`http://localhost:3001/data/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...targetData[0], type: 'clear' }),
+    }).then((response) => response.json());
     setData((prev) =>
       prev.map((todo) => (todo.id === id ? { ...todo, type: 'clear' } : todo))
     );
@@ -34,15 +45,25 @@ const TodoList: React.FC<{
   ) => {
     event.dataTransfer.setData('id', `${id}`);
   };
-
-  const onDropHandler = (
+  const onDropHandler = async (
     event: React.DragEvent<HTMLDivElement>,
     type: string
   ) => {
     event.preventDefault();
     setDrag(false);
-    console.log('onDrop', type);
     const dataId = event.dataTransfer.getData('id');
+    const data = await fetch(
+      `http://localhost:3001/data/${Number(dataId)}`
+    ).then((res) => {
+      return res.json();
+    });
+    fetch(`http://localhost:3001/data/${dataId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...data, type: type }),
+    }).then((response) => response.json());
     setData((prev) =>
       prev.map((todo) =>
         todo.id === Number(dataId) ? { ...todo, type: type } : todo
