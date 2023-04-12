@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Header from './components/Header';
 import NewTodo from './components/NewTodo';
 import Progress from './components/Progress';
 import TodoList from './components/TodoList';
-import { Todo } from './models/todo';
+// import { Todo } from './models/todo';
+import { RootState } from './store/store';
+import { set } from './store/todoSlice';
 
 /**
  * 사용하고 싶은 거
@@ -33,26 +36,38 @@ import { Todo } from './models/todo';
  * 데이터를... 불러와서...
  * <ㅇ>
  */
+
+// 데이터가 각자 어디서 필요한지 생각하기!!!!!!
 function App() {
-  const [data, setData] = useState<Todo[]>([]);
-  const [important, setImpotant] = useState<Todo[]>([]);
-  const [clear, setClear] = useState<Todo[]>([]);
-  const [normal, setNormal] = useState<Todo[]>([]);
+  const dispatch = useDispatch();
+  const todoData = useSelector((state: RootState) => {
+    return state.todo;
+  });
+  const importantData = todoData.filter((ele) => ele.type === 'important');
+  const normalData = todoData.filter((ele) => ele.type === 'normal');
+  const clearData = todoData.filter((ele) => ele.type === 'clear');
+
+  console.log(todoData);
+
+  // const [data, setData] = useState<Todo[]>([]);
+  // const [important, setImpotant] = useState<Todo[]>([]);
+  // const [clear, setClear] = useState<Todo[]>([]);
+  // const [normal, setNormal] = useState<Todo[]>([]);
 
   const typelist = [
-    { type: 'important', title: '중요한 일', data: important },
-    { type: 'normal', title: '해야할 일', data: normal },
-    { type: 'clear', title: '완료한 일', data: clear },
+    { type: 'important', title: '중요한 일', data: importantData },
+    { type: 'normal', title: '해야할 일', data: normalData },
+    { type: 'clear', title: '완료한 일', data: clearData },
   ];
 
-  const dataSort = () => {
-    const importantData = data.filter((ele) => ele.type === 'important');
-    setImpotant(importantData);
-    const clearData = data.filter((ele) => ele.type === 'clear');
-    setClear(clearData);
-    const normalData = data.filter((ele) => ele.type === 'normal');
-    setNormal(normalData);
-  };
+  // const dataSort = () => {
+  //   const importantData = data.filter((ele) => ele.type === 'important');
+  //   setImpotant(importantData);
+  //   const clearData = data.filter((ele) => ele.type === 'clear');
+  //   setClear(clearData);
+  //   const normalData = data.filter((ele) => ele.type === 'normal');
+  //   setNormal(normalData);
+  // };
 
   const getData = async () => {
     try {
@@ -61,7 +76,7 @@ function App() {
           return res.json();
         })
         .then((json) => {
-          setData(json);
+          dispatch(set(json));
         });
       return data;
     } catch (e) {
@@ -73,9 +88,9 @@ function App() {
     getData();
   }, []);
 
-  useEffect(() => {
-    dataSort();
-  }, [data]);
+  // useEffect(() => {
+  //   dataSort();
+  // }, [todoData]);
 
   const addTodoHandler = (text: string) => {
     const newData = {
@@ -101,12 +116,12 @@ function App() {
           type={list.type}
           title={list.title}
           data={list.data}
-          setData={setData}
-          dataSort={dataSort}
+          // setData={setData}
+          // dataSort={dataSort}
         />
       ))}
       <NewTodo addTodo={addTodoHandler} />
-      <Progress data={data} clear={clear} />
+      <Progress data={todoData} clear={clearData} />
     </AppUI>
   );
 }

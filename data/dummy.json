@@ -8,12 +8,62 @@
     {
       "id": 1,
       "text": "임시 할 일 목록 2",
-      "type": "important"
+      "type": "clear"
     },
     {
       "id": 2,
       "text": "임시 할 일 목록 3",
-      "type": "normal"
+      "type": "clear"
+    },
+    {
+      "text": "dfdsf",
+      "type": "clear",
+      "id": 3
+    },
+    {
+      "text": "ㄴㅋㅇㄹ",
+      "type": "clear",
+      "id": 8
+    },
+    {
+      "text": "바로?인가?",
+      "type": "clear",
+      "id": 9
+    },
+    {
+      "text": "sdfadsfs",
+      "type": "important",
+      "id": 10
+    },
+    {
+      "text": "왜 뜨는게 제대로 안뜨죠",
+      "type": "clear",
+      "id": 12
+    },
+    {
+      "text": "왜죠",
+      "type": "clear",
+      "id": 13
+    },
+    {
+      "text": "sdfsfsdfafdsf",
+      "type": "clear",
+      "id": 14
+    },
+    {
+      "text": "sdfsdf",
+      "type": "normal",
+      "id": 15
+    },
+    {
+      "text": "asdfasdf",
+      "type": "normal",
+      "id": 16
+    },
+    {
+      "text": "????",
+      "type": "normal",
+      "id": 17
     }
   ]
 }

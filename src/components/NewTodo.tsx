@@ -1,10 +1,12 @@
 import React, { FormEvent, useRef } from 'react';
+// import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const NewTodo: React.FC<{ addTodo: (text: string) => void }> = ({
   addTodo,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  // const dispatch = useDispatch();
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
     const text = inputRef.current!.value;
