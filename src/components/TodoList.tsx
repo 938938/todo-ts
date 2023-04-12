@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Todo } from '../models/todo';
+import { clear, del, update } from '../store/todoSlice';
+// import { Todo } from '../models/todo';
 import TodoItem from './TodoItem';
 
 const TodoList: React.FC<{
   type: string;
   title: string;
   data: { id: number; text: string }[];
-  setData: React.Dispatch<React.SetStateAction<Todo[]>>;
-  dataSort: () => void;
-}> = ({ type, title, data, setData, dataSort }) => {
+  // setData: React.Dispatch<React.SetStateAction<Todo[]>>;
+  // dataSort: () => void;
+}> = ({ type, title, data }) => {
+  const dispatch = useDispatch();
+
   const [typeColor, setTypeColor] = useState('');
   const [open, setOpen] = useState(false);
   const [drag, setDrag] = useState(false);
@@ -21,7 +25,8 @@ const TodoList: React.FC<{
     await fetch(`http://localhost:3001/data/${id}`, {
       method: 'DELETE',
     });
-    setData((prev) => prev.filter((data) => data.id !== id));
+    dispatch(del(id));
+    // setData((prev) => prev.filter((data) => data.id !== id));
   };
 
   const clearTodoHandler = async (id: number) => {
@@ -33,10 +38,11 @@ const TodoList: React.FC<{
       },
       body: JSON.stringify({ ...targetData[0], type: 'clear' }),
     }).then((response) => response.json());
-    setData((prev) =>
-      prev.map((todo) => (todo.id === id ? { ...todo, type: 'clear' } : todo))
-    );
-    dataSort();
+    dispatch(clear(id));
+    // setData((prev) =>
+    //   prev.map((todo) => (todo.id === id ? { ...todo, type: 'clear' } : todo))
+    // );
+    // dataSort();
   };
 
   const onDragHandler = (
@@ -64,12 +70,13 @@ const TodoList: React.FC<{
       },
       body: JSON.stringify({ ...data, type: type }),
     }).then((response) => response.json());
-    setData((prev) =>
-      prev.map((todo) =>
-        todo.id === Number(dataId) ? { ...todo, type: type } : todo
-      )
-    );
-    dataSort();
+    dispatch(update({ id: Number(dataId), type: type }));
+    // setData((prev) =>
+    //   prev.map((todo) =>
+    //     todo.id === Number(dataId) ? { ...todo, type: type } : todo
+    //   )
+    // );
+    // dataSort();
   };
   const overDropHandler = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
