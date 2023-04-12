@@ -7,7 +7,7 @@ import Progress from './components/Progress';
 import TodoList from './components/TodoList';
 // import { Todo } from './models/todo';
 import { RootState } from './store/store';
-import { set } from './store/todoSlice';
+import { add, set } from './store/todoSlice';
 
 /**
  * 사용하고 싶은 거
@@ -43,9 +43,18 @@ function App() {
   const todoData = useSelector((state: RootState) => {
     return state.todo;
   });
-  const importantData = todoData.filter((ele) => ele.type === 'important');
-  const normalData = todoData.filter((ele) => ele.type === 'normal');
-  const clearData = todoData.filter((ele) => ele.type === 'clear');
+  // const importantData = todoData.filter((ele) => ele.type === 'important');
+  // const normalData = todoData.filter((ele) => ele.type === 'normal');
+  // const clearData = todoData.filter((ele) => ele.type === 'clear');
+  const importantData = useSelector((state: RootState) => {
+    return state.todo.filter((ele) => ele.type === 'important');
+  });
+  const normalData = useSelector((state: RootState) => {
+    return state.todo.filter((ele) => ele.type === 'normal');
+  });
+  const clearData = useSelector((state: RootState) => {
+    return state.todo.filter((ele) => ele.type === 'clear');
+  });
 
   console.log(todoData);
 
@@ -104,7 +113,7 @@ function App() {
       },
       body: JSON.stringify(newData),
     }).then((response) => response.json());
-    getData();
+    dispatch(add(newData));
   };
 
   return (

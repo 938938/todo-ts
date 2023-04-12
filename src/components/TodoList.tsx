@@ -70,7 +70,7 @@ const TodoList: React.FC<{
       },
       body: JSON.stringify({ ...data, type: type }),
     }).then((response) => response.json());
-    dispatch(update({ id: dataId, type: type }));
+    dispatch(update({ id: Number(dataId), type: type }));
     // setData((prev) =>
     //   prev.map((todo) =>
     //     todo.id === Number(dataId) ? { ...todo, type: type } : todo

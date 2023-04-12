@@ -14,21 +14,21 @@ export const todoSlice = createSlice({
       state.push(...action.payload);
     },
     add: (state, action) => {
-      state = [action.payload, ...state];
+      state.push(action.payload);
     },
     del: (state, action) => {
-      state = state.filter((todo) => todo.id !== action.payload);
+      return (state = state.filter((todo) => todo.id !== action.payload));
     },
     clear: (state, action) => {
-      state = state.map((todo) =>
+      return (state = state.map((todo) =>
         todo.id === action.payload ? { ...todo, type: 'clear' } : todo
-      );
+      ));
     },
     update: (state, action) => {
       const { id, type } = action.payload;
-      state = state.map((todo) =>
+      return (state = state.map((todo) =>
         todo.id === id ? { ...todo, type: type } : todo
-      );
+      ));
     },
   },
 });
