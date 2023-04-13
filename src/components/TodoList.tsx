@@ -9,8 +9,6 @@ const TodoList: React.FC<{
   type: string;
   title: string;
   data: { id: number; text: string }[];
-  // setData: React.Dispatch<React.SetStateAction<Todo[]>>;
-  // dataSort: () => void;
 }> = ({ type, title, data }) => {
   const dispatch = useDispatch();
 
@@ -22,27 +20,22 @@ const TodoList: React.FC<{
   };
 
   const deleteTodoHandler = async (id: number) => {
-    await fetch(`http://localhost:3001/data/${id}`, {
-      method: 'DELETE',
-    });
+    // await fetch(`http://localhost:3001/data/${id}`, {
+    //   method: 'DELETE',
+    // });
     dispatch(del(id));
-    // setData((prev) => prev.filter((data) => data.id !== id));
   };
 
   const clearTodoHandler = async (id: number) => {
-    const targetData = data.filter((ele) => ele.id === id);
-    await fetch(`http://localhost:3001/data/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ...targetData[0], type: 'clear' }),
-    }).then((response) => response.json());
+    // const targetData = data.filter((ele) => ele.id === id);
+    // await fetch(`http://localhost:3001/data/${id}`, {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ ...targetData[0], type: 'clear' }),
+    // }).then((response) => response.json());
     dispatch(clear(id));
-    // setData((prev) =>
-    //   prev.map((todo) => (todo.id === id ? { ...todo, type: 'clear' } : todo))
-    // );
-    // dataSort();
   };
 
   const onDragHandler = (
@@ -58,25 +51,19 @@ const TodoList: React.FC<{
     event.preventDefault();
     setDrag(false);
     const dataId = event.dataTransfer.getData('id');
-    const data = await fetch(
-      `http://localhost:3001/data/${Number(dataId)}`
-    ).then((res) => {
-      return res.json();
-    });
-    fetch(`http://localhost:3001/data/${dataId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ...data, type: type }),
-    }).then((response) => response.json());
+    // const data = await fetch(
+    //   `http://localhost:3001/data/${Number(dataId)}`
+    // ).then((res) => {
+    //   return res.json();
+    // });
+    // fetch(`http://localhost:3001/data/${dataId}`, {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ ...data, type: type }),
+    // }).then((response) => response.json());
     dispatch(update({ id: Number(dataId), type: type }));
-    // setData((prev) =>
-    //   prev.map((todo) =>
-    //     todo.id === Number(dataId) ? { ...todo, type: type } : todo
-    //   )
-    // );
-    // dataSort();
   };
   const overDropHandler = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
