@@ -1,7 +1,11 @@
 # Todo List (React + Ts)
 
-> React와 TypeScript로 제작한 투두 리스트입니다.<br>
-> [사이트 링크](https://938938.github.io/todo-ts/) / [기록 블로그](https://velog.io/@938938/ReactTs-Todo)
+> React와 TypeScript로 제작한 투두 리스트입니다.<br> > [사이트 링크](https://938938.github.io/todo-ts/) / [기록 블로그](https://velog.io/@938938/ReactTs-Todo)
+
+- 제작 기간<br>
+  2023. 03. 30 ~ 2023. 04. 04 (ver 1.0.0)
+- 사용 스택<br>
+  ReactJS / TypeScript / styled-components / Redux-toolkit / gh-pages
 
 <br>
 
