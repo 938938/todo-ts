@@ -1,7 +1,7 @@
 # Todo List (React + Ts)
 
 > React와 TypeScript로 제작한 투두 리스트입니다.<br>
-> [사이트 링크(추가 예정)] / [기록 블로그](https://velog.io/@938938/ReactTs-Todo)
+> [사이트 링크](https://938938.github.io/todo-ts/) / [기록 블로그](https://velog.io/@938938/ReactTs-Todo)
 
 <br>
 
@@ -16,4 +16,11 @@
 ## 업데이트 기록
 
 - ver 1.0.0 <br>
-  TodoList에 필요한 가장 기본적인 CRUD 기능 구현
+  Todo CRUD 기능 구현
+- ver 1.0.1 <br>
+  id값 오류 수정<br>
+  진행도 추가<br>
+- ver 1.0.2 <br>
+  JsonServer 연결(배포를 위해서 비활성화)
+- ver 1.0.3 <br>
+  Redux-toolkit 적용
