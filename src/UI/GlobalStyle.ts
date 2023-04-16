@@ -30,6 +30,9 @@ const GlobalStyle = createGlobalStyle`
     padding:30px;
     /* background-color: var(--bg-color); */
   }
+  button{
+    cursor:pointer;
+  }
 `;
 
 export default GlobalStyle;

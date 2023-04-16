@@ -1,7 +1,9 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/Header';
 import Main from './pages/Main';
+import Setting from './pages/Setting';
 
 /**
  * 사용하고 싶은 거
@@ -25,7 +27,10 @@ function App() {
   return (
     <AppUI>
       <Header />
-      <Main />
+      <Routes>
+        <Route path='/' element={<Main />} />
+        <Route path='/set' element={<Setting />} />
+      </Routes>
     </AppUI>
   );
 }
