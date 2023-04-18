@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/Header';
 import Main from './pages/Main';
@@ -30,6 +30,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Main />} />
         <Route path='/set' element={<Setting />} />
+        <Route path='/todo-ts' element={<Navigate replace to='/' />} />
       </Routes>
     </AppUI>
   );
